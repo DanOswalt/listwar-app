@@ -3,17 +3,16 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import Vuex from 'vuex'
 import Firebase from 'firebase'
 import moment from 'moment'
 import VueVisible from 'vue-visible'
 import Chance from 'chance'
+import { store } from './store/store'
 import './../node_modules/bulma/css/bulma.css'
 
 /* uncomment to user the 'debugger' overlays */
 // import '@/css/debug.css'
 
-Vue.use(Vuex)
 Vue.use(VueVisible)
 
 Vue.prototype.$moment = moment
@@ -24,6 +23,7 @@ Firebase.auth().onAuthStateChanged(() => {
   new Vue({
     el: '#app',
     router,
+    store,
     components: { App },
     template: '<App/>'
   })
