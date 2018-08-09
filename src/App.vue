@@ -1,13 +1,17 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view/>
   </div>
 </template>
 
 <script>
+import db from './firebase/firestore'
+
 export default {
-  name: 'App'
+  name: 'App',
+  created () {
+
+  }
 }
 </script>
 
