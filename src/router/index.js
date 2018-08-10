@@ -2,11 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import SignIn from '@/components/SignIn'
-import SignOut from '@/components/SignOut'
+import SignUp from '@/components/SignUp'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -14,14 +15,14 @@ export default new Router({
       component: Home
     },
     {
-      path: '/',
+      path: '/signin',
       name: 'SignIn',
       component: SignIn
     },
     {
-      path: '/',
-      name: 'SignOut',
-      component: SignOut
+      path: '/signout',
+      name: 'SignUp',
+      component: SignUp
     }
   ]
 })

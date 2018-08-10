@@ -1,15 +1,19 @@
 <template>
   <div class="home">
-    <h1 class="is-size-1 text-is-centered">'/'</h1>
+    <router-link :to="{ name: 'Create', params: {} }">
+      <span class="icon">
+        <i class="fas fa-plus"></i>
+      </span>
+    </router-link>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'Home',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+
     }
   }
 }

@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="signin">
+  <div class="signup">
     <form class="">
       <div class="field">
         <div class="control">
@@ -11,7 +11,12 @@
           <input class="input is-info" type="password" name="password" v-model="password" placeholder="password">
         </div>
       </div>
-      <button class="button" @click.prevent="authenticate" type="submit" name="button">Sign In</button>
+      <div class="field">
+        <div class="control">
+          <input class="input is-info" type="text" name="alias" v-model="alias" placeholder="alias">
+        </div>
+      </div>
+      <button class="button is-info" @click.prevent="register" type="submit" name="button">Sign Up</button>
     </form>
   </div>
 </template>
@@ -21,7 +26,7 @@ import firebase from 'firebase'
 import db from '@/firebase/firestore.js'
 
 export default {
-  name: 'SignIn',
+  name: 'SignUp',
   data () {
     return {
       email: null,
@@ -31,15 +36,12 @@ export default {
     }
   },
   methods: {
-    authenticate () {
-
+    register () {
+      console.log(this.email)
     }
   }
 }
 </script>
 
 <style lang="css">
-  form {
-    font-size: 2em;
-  }
 </style>
