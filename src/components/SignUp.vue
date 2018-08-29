@@ -24,6 +24,7 @@
 <script>
 import firebase from 'firebase'
 import db from '@/firebase/firestore.js'
+import slugify from 'slugify'
 
 export default {
   name: 'SignUp',
@@ -32,12 +33,21 @@ export default {
       email: null,
       password: null,
       alias: null,
+      slug: null,
       msg: null
     }
   },
   methods: {
     register () {
-      console.log(this.email)
+      if (this.alias && this.email && this.password) {
+        this.slug = slugify(this.alias, {
+          replacement: '-',
+          remove: /[$*_+~.()'"!\-:@]/g,
+          lower: true
+        })
+
+        console.log(this.slug)
+      }
     }
   }
 }

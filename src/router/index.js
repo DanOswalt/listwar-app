@@ -20,7 +20,7 @@ export default new Router({
       component: SignIn
     },
     {
-      path: '/signout',
+      path: '/signup',
       name: 'SignUp',
       component: SignUp
     }
