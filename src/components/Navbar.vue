@@ -37,6 +37,10 @@ export default {
     user () {
       return this.$store.getters.getUser
     }
+  },
+  mounted() {
+    this.$store.commit('setUser')
+    console.log('current user in navbar:', this.user)
   }
 }
 </script>

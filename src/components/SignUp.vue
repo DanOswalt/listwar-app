@@ -59,6 +59,8 @@ export default {
                   alias: this.alias,
                   userId: cred.user.uid
                 })
+                this.$store.commit('setUser')
+                console.log('current user:', this.$store.getters.getUser)
               })
               .then(() => {
                 this.$router.push({ name: 'Home' })
