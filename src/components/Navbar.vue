@@ -1,4 +1,4 @@
-<template lang="html">
+  <template lang="html">
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <div class="navbar-item">
@@ -19,7 +19,7 @@
           <router-link v-show="!user" :to="{ name: 'SignUp' }">Sign Up</router-link>
         </div>
         <div class="navbar-item">
-          <router-link v-show="user" :to="{ name: '/' }">Log Out</router-link>
+          <router-link v-show="user" :to="{ name: 'Home' }">Log Out</router-link>
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@
         </div>
       </div>
       <button class="button is-info" @click.prevent="register" type="submit" name="button">Sign Up</button>
+      <h6 class="msg-output" v-if="this.msg">{{ this.msg }}</h6>
     </form>
   </div>
 </template>
@@ -46,12 +47,38 @@ export default {
           lower: true
         })
 
-        console.log(this.slug)
+        let ref = db.collection('users').doc(this.slug)
+        ref.get()
+          .then(doc => {
+            if (doc.exists) {
+              this.msg = 'Sorry, pick another name. This one is taken.'
+            } else {
+              firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+              .then(cred => {
+                ref.set({
+                  alias: this.alias,
+                  userId: cred.user.uid
+                })
+              })
+              .then(() => {
+                this.$router.push({ name: 'Home' })
+              })
+              .catch(err => {
+                console.log(err)
+                this.msg = err.message
+              })
+            }
+          })
+      } else {
+        this.msg = 'Please enter all fields'
       }
     }
   }
 }
 </script>
 
-<style lang="css">
+<style scoped lang="css">
+  .msg-output {
+    color: red;
+  }
 </style>
