@@ -26,13 +26,24 @@ export default {
     return {
       email: null,
       password: null,
-      alias: null,
       msg: null
     }
   },
   methods: {
     authenticate () {
-
+      if (this.email && this.password) {
+        this.msg = null
+        firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+        .then(cred => {
+          this.$store.commit('setUser')
+          this.$router.push({ name: 'Home' })
+        })
+        .catch(err => {
+          this.msg = err.message
+        })
+      } else {
+        this.msg = 'Please enter all fields'
+      }
     }
   }
 }

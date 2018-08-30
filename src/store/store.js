@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Firebase from 'firebase'
+import firebase from 'firebase'
+import db from '@/firebase/firestore.js'
+
 
 Vue.use(Vuex)
 
@@ -15,7 +17,23 @@ export const store = new Vuex.Store({
   },
   mutations: {
     setUser: state => {
-      state.user = Firebase.auth().currentUser
+      let authUser = firebase.auth().currentUser
+
+      if (authUser) {
+        db.collection('users').where('userId', '==', authUser.uid).get()
+          .then(snapshot => {
+            snapshot.forEach(doc => {
+              console.log(doc.data())
+              state.user = doc.data()
+            })
+          })
+          .catch(err => {
+            console.log(err.message)
+          })
+      } else {
+        state.user = null
+      }
+
     }
   },
   actions: {
