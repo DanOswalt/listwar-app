@@ -3,16 +3,22 @@ import Vuex from 'vuex'
 import firebase from 'firebase'
 import db from '@/firebase/firestore.js'
 
-
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    user: null
+    user: null,
+    msg: {
+      value: '',
+      type: 'hide'
+    }
   },
   getters: {
     getUser: state => {
       return state.user
+    },
+    getMsg: state => {
+      return state.msg
     }
   },
   mutations: {
@@ -33,7 +39,9 @@ export const store = new Vuex.Store({
       } else {
         state.user = null
       }
-
+    },
+    setMsg: (state, payload) => {
+      state.msg = payload
     }
   },
   actions: {

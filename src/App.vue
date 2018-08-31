@@ -1,18 +1,21 @@
 <template>
   <div id="app">
     <navbar/>
+    <Dialogue/>
     <router-view/>
   </div>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue'
-import db from './firebase/firestore'
+import Navbar from '@/components/layout/Navbar.vue'
+import Dialogue from '@/components/layout/Dialogue.vue'
+// import db from './firebase/firestore'
 
 export default {
   name: 'App',
   components: {
-    Navbar
+    Navbar,
+    Dialogue
   }
 }
 </script>

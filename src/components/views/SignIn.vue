@@ -18,7 +18,7 @@
 
 <script>
 import firebase from 'firebase'
-import db from '@/firebase/firestore.js'
+// import db from '@/firebase/firestore.js'
 
 export default {
   name: 'SignIn',
@@ -34,13 +34,13 @@ export default {
       if (this.email && this.password) {
         this.msg = null
         firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-        .then(cred => {
-          this.$store.commit('setUser')
-          this.$router.push({ name: 'Home' })
-        })
-        .catch(err => {
-          this.msg = err.message
-        })
+          .then(cred => {
+            this.$store.commit('setUser')
+            this.$router.push({ name: 'Home' })
+          })
+          .catch(err => {
+            this.msg = err.message
+          })
       } else {
         this.msg = 'Please enter all fields'
       }

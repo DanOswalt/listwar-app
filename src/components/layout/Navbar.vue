@@ -1,4 +1,4 @@
-  <template lang="html">
+<template lang="html">
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <div class="navbar-item">
@@ -30,6 +30,7 @@
 import firebase from 'firebase'
 
 export default {
+  name: 'Navbar',
   data () {
     return {
       openMenu: false
@@ -48,9 +49,8 @@ export default {
         })
     }
   },
-  mounted() {
+  mounted () {
     this.$store.commit('setUser')
-    console.log('current user in navbar:', this.user)
   }
 }
 </script>

@@ -1,11 +1,5 @@
 <template>
   <div class="home">
-    <div v-if="user" class="title-row has-text-centered">
-      <h2>Hi {{ user.alias }}</h2>
-    </div>
-    <div v-else class="title-row has-text-centered">
-      <h2>Hello Stranger</h2>
-    </div>
     <router-link :to="{ name: 'Create', params: {} }">
       <span class="icon">
         <i class="fas fa-plus"></i>
@@ -18,15 +12,13 @@
 export default {
   name: 'Home',
   data () {
-    return {
-
-    }
+    return {}
   },
   computed: {
     user () {
       return this.$store.getters.getUser
     }
-  },
+  }
 }
 </script>
 

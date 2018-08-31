@@ -54,21 +54,21 @@ export default {
               this.msg = 'Sorry, pick another name. This one is taken.'
             } else {
               firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-              .then(cred => {
-                ref.set({
-                  alias: this.alias,
-                  userId: cred.user.uid
+                .then(cred => {
+                  ref.set({
+                    alias: this.alias,
+                    userId: cred.user.uid
+                  })
+                  this.$store.commit('setUser')
+                  console.log('current user:', this.$store.getters.getUser)
                 })
-                this.$store.commit('setUser')
-                console.log('current user:', this.$store.getters.getUser)
-              })
-              .then(() => {
-                this.$router.push({ name: 'Home' })
-              })
-              .catch(err => {
-                console.log(err)
-                this.msg = err.message
-              })
+                .then(() => {
+                  this.$router.push({ name: 'Home' })
+                })
+                .catch(err => {
+                  console.log(err)
+                  this.msg = err.message
+                })
             }
           })
       } else {
