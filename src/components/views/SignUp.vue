@@ -51,7 +51,7 @@ export default {
         ref.get()
           .then(doc => {
             if (doc.exists) {
-              this.msg = 'Sorry, pick another name. This one is taken.'
+              this.setMsg('Sorry, pick another name. This one is taken.', 'warn')
             } else {
               firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
                 .then(cred => {
@@ -59,21 +59,28 @@ export default {
                     alias: this.alias,
                     userId: cred.user.uid
                   })
+                  this.setMsg()
                   this.$store.commit('setUser')
-                  console.log('current user:', this.$store.getters.getUser)
                 })
                 .then(() => {
                   this.$router.push({ name: 'Home' })
                 })
                 .catch(err => {
                   console.log(err)
-                  this.msg = err.message
+                  this.setMsg(err.message, 'error')
                 })
             }
           })
       } else {
-        this.msg = 'Please enter all fields'
+        this.setMsg('Please enter all fields', 'error')
       }
+    },
+    setMsg (value, type) {
+      if (!value) {
+        value = ''
+        type = 'hide'
+      }
+      this.$store.commit('setMsg', { value, type })
     }
   }
 }

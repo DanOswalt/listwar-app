@@ -18,6 +18,15 @@ export default {
     user () {
       return this.$store.getters.getUser
     }
+  },
+  methods: {
+    setMsg (value, type) {
+      if (!value) {
+        value = ''
+        type = 'hide'
+      }
+      this.$store.commit('setMsg', { value, type })
+    }
   }
 }
 </script>

@@ -32,27 +32,29 @@ export default {
   methods: {
     authenticate () {
       if (this.email && this.password) {
-        this.updateMsg()
+        this.setMsg()
         firebase.auth().signInWithEmailAndPassword(this.email, this.password)
           .then(cred => {
             this.$store.commit('setUser')
             this.$router.push({ name: 'Home' })
           })
           .catch(err => {
-            this.store
-            this.msg = err.message
+            this.setMsg(err.message, 'error')
           })
       } else {
-        this.$store.commit('setMsg', { value: 'Please enter all fields', type: 'error' })
+        this.setMsg('Please enter all fields', 'error')
       }
+    },
+    setMsg (value, type) {
+      if (!value) {
+        value = ''
+        type = 'hide'
+      }
+      this.$store.commit('setMsg', { value, type })
     }
-    // updateMsg (value, type) {
-    //   if (!value) {
-    //     value = '',
-    //     type= 'hide'
-    //   }
-    //   this.$store.commit('setMsg', { value, type })
-    // }
+  },
+  created () {
+    this.setMsg()
   }
 }
 </script>
