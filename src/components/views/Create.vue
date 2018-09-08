@@ -3,61 +3,91 @@
     <form class="list-form">
       <div v-if="titleEdit" class="field">
         <div class="control">
-          <input class="input is-info is-size-4 has-text-centered"
+          <input id="title"
+                 class="input is-info has-text-centered"
                  @blur="becomePlainText"
                  type="text"
-                 name="title"
-                 v-model="title"
+                 v-model="list.title"
                  placeholder="Title your list">
         </div>
       </div>
-      <div v-else class="current-title is-size-4 has-text-centered" @click="titleEdit = true">
-        <h3>{{ title }}<span class="fa fa-edit"</h3>
+      <div v-else class="current-title is-bold has-text-centered" @click="titleEdit = true">
+        <h3 @hover="showEditIcon=true">{{ list.title }}<span v-show="showEditIcon" class="fa fa-edit edit-title-icon"></span></h3>
       </div>
-      <ul class="items-list" v-for="(item, index) in items" :key="index">
-        <li class="item-field" @click="removeItem">{{ index + 1 }}. {{ item }}</li>
+      <ul class="items-list" v-for="(item, index) in list.items" :key="index">
+        <li class="item-field" @click="removeItem(index)">{{ index + 1 }}. {{ item }}</li>
       </ul>
       <div class="field">
         <div class="control">
-          <input class="input is-info"
-                 @keyup.tab.prevent="addItem(newItem)"
+          <input id="newItem"
+                 ref="newItem"
+                 class="input is-info"
+                 @keydown.enter.prevent="addItem(newItem)"
                  type="text"
-                 name="newItem"
                  v-model="newItem"
                  placeholder="Next item">
         </div>
       </div>
-      <button class="button" @submit.prevent="createList" type="submit" name="button">War</button>
+      <button class="button" @click="createList" type="button" name="button">War</button>
     </form>
   </div>
 </template>
 
 <script>
+import slugify from 'slugify'
+import shortid from 'shortid'
+
 export default {
   name: 'Create',
   data () {
     return {
-      title: '',
-      items: ['cars', 'trucks'],
+      list: {
+        title: '',
+        items: []
+      },
       newItem: '',
-      titleEdit: true
+      titleEdit: true,
+      showEditIcon: false
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.getters.getUser
     }
   },
   methods: {
     addItem (item) {
-      this.items.push(item)
+      this.list.items.push(item)
+      this.newItem = ''
     },
     removeItem (index) {
-      this.items.splice(index, 1)
+      this.list.items.splice(index, 1)
     },
     becomePlainText () {
-      this.titleEdit = this.title ? false : true
+      this.titleEdit = !this.list.title
     },
     createList () {
-      console.log(this.items)
+      this.list.timestamp = Date.now()
+      this.list.creator = this.user ? this.user.alias : 'anon'
+      this.list.titleSlug = slugify(this.list.title, {
+        replacement: '-',
+        remove: /[$*_+~.()'"!\-:@]/g,
+        lower: true
+      })
+      this.list.id = shortid.generate()
+
+      this.$store.commit('setList', this.list)
+      this.$router.push({
+        name: 'War',
+        params: {
+          creator: this.list.creator,
+          listid: this.list.id,
+          title: this.list.titleSlug
+        }
+      })
+      console.log(this.$store.getters.getList)
     }
   }
-
 }
 </script>
 
@@ -65,9 +95,13 @@ export default {
 .item-field:hover {
   text-decoration: line-through;
   cursor: pointer;
+  color: red;
 }
 
 .current-title:hover {
   cursor: text;
+  color: red;
+  border-bottom: solid 1px black;
 }
+
 </style>

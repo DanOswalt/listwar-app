@@ -27,6 +27,10 @@ export default {
 </script>
 
 <style>
+  .dialogue {
+      margin-bottom: 20px;
+  }
+
   .info {
     color: black;
   }

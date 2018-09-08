@@ -11,7 +11,8 @@ export const store = new Vuex.Store({
     msg: {
       value: '',
       type: 'hide'
-    }
+    },
+    list: null
   },
   getters: {
     getUser: state => {
@@ -19,6 +20,9 @@ export const store = new Vuex.Store({
     },
     getMsg: state => {
       return state.msg
+    },
+    getList: state => {
+      return state.list
     }
   },
   mutations: {
@@ -42,6 +46,9 @@ export const store = new Vuex.Store({
     },
     setMsg: (state, payload) => {
       state.msg = payload
+    },
+    setList: (state, payload) => {
+      state.list = payload
     }
   },
   actions: {

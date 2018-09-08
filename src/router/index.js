@@ -4,6 +4,7 @@ import Home from '@/components/views/Home'
 import SignIn from '@/components/views/SignIn'
 import SignUp from '@/components/views/SignUp'
 import Create from '@/components/views/Create'
+import War from '@/components/views/War'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/create',
       name: 'Create',
       component: Create
+    },
+    {
+      path: '/war/:listid/:creator/:title',
+      name: 'War',
+      component: War
     }
   ]
 })
