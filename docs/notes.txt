@@ -1,0 +1,27 @@
+should it save at create list?
+
+anon users should get the most recent result saved in localstorage, as well as recent list
+
+the url is created and the list gets saved in localstorage.
+  if anon user then logs in or creates account, then the recent list and/or result should be saved automatically
+
+so, all users will store their most recent list and most recent result
+
+the list gets saved in its own collection
+
+the result gets saved on the user object
+
+home screen is always most recent list only (plus the new list sign)
+
+so, next steps at this point:
+
+after completing the war, does it just redirect to the homescreen?
+
+perhaps, with a congratulatory message, with an animation?
+
+nah, it is it's own result, the homescreen should just show a thumbnail with top 3.
+
+so next step,
+1. in create screen, create the list in db if user is logged in.
+2. once this list is set, it doesn't get updated. It is merely referenced by id. Users can remove it.
+   It should be deleted if the last user who has a reference to it has deleted it.

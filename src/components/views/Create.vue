@@ -36,6 +36,7 @@
 <script>
 import slugify from 'slugify'
 import shortid from 'shortid'
+import db from '@/firebase/firestore.js'
 
 export default {
   name: 'Create',
@@ -78,6 +79,19 @@ export default {
 
       this.$store.commit('setList', this.list)
 
+      if (this.user) {
+        this.saveList()
+          .then(doc => {
+            this.goToWarView()
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+
+      this.goToWarView()
+    },
+    goToWarView () {
       this.$router.push({
         name: 'War',
         params: {
@@ -86,6 +100,9 @@ export default {
           title: this.list.titleSlug
         }
       })
+    },
+    saveList () {
+      return db.collection('lists').doc(this.list.id).set(this.list)
     }
   }
 }

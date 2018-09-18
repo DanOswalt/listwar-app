@@ -75,9 +75,9 @@ export default {
       this.nextBattle()
     },
     finish () {
-      this.status = 'finished',
+      this.status = 'finished'
       this.result.completed = true
-      this.result.completedBy = this.user.alias
+      this.result.completedBy = this.$route.params.creator
       this.result.timestamp = Date.now()
       this.result.items.sort((a, b) => {
         return b.points - a.points
@@ -88,6 +88,9 @@ export default {
     },
     fetchList () {
       return db.collection('lists').doc(this.listId).get()
+    },
+    saveResult () {
+
     },
     createEmptyResult () { // a list must exist first
       this.result = {
