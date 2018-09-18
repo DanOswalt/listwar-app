@@ -1,24 +1,31 @@
 <template lang="html">
   <div class="war">
-    <div v-if="status === 'intro'" class="war-phase">
+    <section v-if="status === 'intro'" class="war-phase">
+      <h6> {{ listTitle }}</h6>
       <ul>
         <li v-for="(item, index) in list.items" :key="index">{{ index + 1 }}. {{ item }}</li>
       </ul>
       <h6>{{ listLength }} items will last {{ roundCount }} rounds. Ok?</h6>
       <button @click="startWar" class="button is-info">Begin</button>
-    </div>
+    </section>
 
-    <div v-else-if="status === 'playing'" class="war-phase">
+    <section v-else-if="status === 'playing'" class="war-phase">
+      <div class="">
+         <button @click="pickWinner(heroIndex, villainIndex)" class="btn-large">{{ hero.value }}</button>
+         <button @click="pickWinner(villainIndex, heroIndex)" class="btn-large">{{ villain.value }}</button>
+       </div>
+    </section>
 
-    </div>
+    <section v-else-if="status === 'finished'" class="war-phase">
+      <ul>
+        <li v-for="(item, index) in result.items" :key="index" >{{ item.rank }}. {{ item.value }} <span class="right">{{ item.points }} pts.</span></li>
+      </ul>
+      <p class="white-text">{{ result }}</p>
+    </section>
 
-    <div v-else-if="status === 'finished'" class="war-phase">
-
-    </div>
-
-    <div v-else class="">
+    <section v-else class="">
       <h6>No List?</h6>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -29,7 +36,13 @@ export default {
   name: 'War',
   data () {
     return {
-      status: 'checkingList'
+      status: 'checkingList',
+      completed: false,
+      schedule: [],
+      hero: { value: '' },
+      heroIndex: null,
+      villain: { value: '' },
+      villainIndex: null
     }
   },
   computed: {
@@ -41,6 +54,9 @@ export default {
     },
     listId () {
       return this.$route.params.listid
+    },
+    listTitle () {
+      return this.list ? this.list.title : ''
     },
     listLength () { return this.list ? this.list.items.length : 0 },
     roundCount () {
@@ -54,9 +70,66 @@ export default {
   methods: {
     startWar () {
       this.status = 'playing'
+      this.createEmptyResult()
+      this.createSchedule()
+      this.nextBattle()
+    },
+    finish () {
+      this.status = 'finished',
+      this.result.completed = true
+      this.result.completedBy = this.user.alias
+      this.result.timestamp = Date.now()
+      this.result.items.sort((a, b) => {
+        return b.points - a.points
+      })
+      this.result.items.forEach((item, index) => {
+        item.rank = index + 1
+      })
     },
     fetchList () {
       return db.collection('lists').doc(this.listId).get()
+    },
+    createEmptyResult () { // a list must exist first
+      this.result = {
+        timestamp: null,
+        listId: this.listId,
+        items: this.list.items.map((value, index) => {
+          return {
+            value: value,
+            points: 0,
+            id: index,
+            beats: [],
+            rank: null
+          }
+        })
+      }
+    },
+    pickWinner (winnerIndex, loserIndex) {
+      this.result.items[winnerIndex].points += 1
+      this.result.items[winnerIndex].beats.push(loserIndex)
+      this.nextBattle()
+    },
+    createSchedule () {
+      const n = this.listLength
+      for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+          const matchIndices = [i, j]
+          const shuffled = this.$chance.shuffle(matchIndices)
+          this.schedule.push(shuffled)
+        }
+      }
+      this.schedule = this.$chance.shuffle(this.schedule)
+    },
+    nextBattle () {
+      if (this.schedule.length > 0) {
+        this.battle = this.schedule.pop()
+        this.heroIndex = this.battle[0]
+        this.villainIndex = this.battle[1]
+        this.hero = { value: this.list.items[this.heroIndex], index: this.heroIndex }
+        this.villain = { value: this.list.items[this.villainIndex], index: this.villainIndex }
+      } else {
+        this.finish()
+      }
     }
   },
   mounted () {
@@ -67,6 +140,7 @@ export default {
     // if there's no list, check for cached recent list (make sure it maches the id from url)
     } else {
       let recentList = JSON.parse(localStorage.getItem('recentList'))
+
       if (recentList && recentList.id === this.listId) {
         console.log('loaded from recent')
         this.$store.commit('setList', recentList)
