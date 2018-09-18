@@ -77,6 +77,7 @@ export default {
       this.list.id = shortid.generate()
 
       this.$store.commit('setList', this.list)
+
       this.$router.push({
         name: 'War',
         params: {
@@ -85,7 +86,6 @@ export default {
           title: this.list.titleSlug
         }
       })
-      console.log(this.$store.getters.getList)
     }
   }
 }

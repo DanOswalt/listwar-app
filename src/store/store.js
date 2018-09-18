@@ -49,6 +49,7 @@ export const store = new Vuex.Store({
     },
     setList: (state, payload) => {
       state.list = payload
+      localStorage.setItem('recentList', JSON.stringify(state.list))
     }
   },
   actions: {
