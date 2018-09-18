@@ -76,6 +76,7 @@ export default {
         lower: true
       })
       this.list.id = shortid.generate()
+      this.list.endpoint = `${this.list.id}/${this.list.creator}/${this.list.titleSlug}`
 
       this.$store.commit('setList', this.list)
 
