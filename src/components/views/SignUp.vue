@@ -57,7 +57,8 @@ export default {
                 .then(cred => {
                   ref.set({
                     alias: this.alias,
-                    userId: cred.user.uid
+                    userId: cred.user.uid,
+                    results: []
                   })
                   this.setMsg()
                   this.$store.commit('setUser')

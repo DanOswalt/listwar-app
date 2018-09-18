@@ -85,12 +85,23 @@ export default {
       this.result.items.forEach((item, index) => {
         item.rank = index + 1
       })
+
+      if (this.user) {
+        this.user.results.push(this.result)
+        this.saveResult()
+          .then(doc => {
+            console.log('saved')
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
     },
     fetchList () {
       return db.collection('lists').doc(this.listId).get()
     },
     saveResult () {
-
+      return db.collection('users').doc(this.user.alias).set(this.user)
     },
     createEmptyResult () { // a list must exist first
       this.result = {
