@@ -1,16 +1,32 @@
 <template lang="html">
   <div class="footernav">
-    <div class="navbutton back">
-      <router-link v-if="backButton" :to="{ name: 'Home', params: {} }">
+    <div v-if="backButton" class="navbutton back">
+      <router-link :to="{ name: 'Home', params: {} }">
         <span class="icon">
           <i class="fas fa-angle-left is-size-1"></i>
         </span>
       </router-link>
     </div>
-    <div class="navbutton create">
-      <router-link v-if="this.$route.name === 'Home'" :to="{ name: 'Create', params: {} }">
+    <div v-if="createButton" class="navbutton create">
+      <router-link :to="{ name: 'Create', params: {} }">
         <span class="icon">
-          <i class="fas fa-plus is-size-2"></i>
+          <i class="fas fa-plus is-size-3"></i>
+        </span>
+      </router-link>
+    </div>
+    <div v-if="submitListButton" class="navbutton submit right">
+      <button class="button" type="button" name="button">War</button>>
+    </div>
+    <div v-if="beginWarButton" class="navbutton begin right">
+      <button class="button" type="button" name="button">Begin</button>>
+    </div>
+    <div v-if="shareButton" class="navbutton share middle">
+      <button class="button" type="button" name="button">Share</button>>
+    </div>
+    <div v-if="doneButton" class="navbutton done right">
+      <router-link v-if="doneButton" :to="{ name: 'Home', params: {} }">
+        <span class="icon">
+          <i class="far fa-check-circle"></i>
         </span>
       </router-link>
     </div>
@@ -22,7 +38,18 @@ export default {
   name: 'FooterNav',
   data () {
     return {
-      backButton: true
+      submitListButton: false,
+      beginWarButton: false,
+      doneButton: false,
+      shareButton: false
+    }
+  },
+  computed: {
+    backButton () {
+      return this.$route.name !== 'Home'
+    },
+    createButton () {
+      return this.$route.name === 'Home'
     }
   }
 }
@@ -42,12 +69,17 @@ export default {
 }
 .back {
   position: fixed;
-  left: 8px;
-  bottom: 3px;
+  left: 15px;
+  bottom: 0px;
 }
 .create {
   position: fixed;
-  right: 8px;
-  bottom: 3px;
+  right: 20px;
+  bottom: 10px;
+}
+.submit {
+  position: fixed;
+  right: 20px;
+  bottom: 10px;
 }
 </style>

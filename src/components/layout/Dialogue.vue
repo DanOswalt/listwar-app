@@ -28,21 +28,17 @@ export default {
 
 <style>
   .dialogue {
-      margin-bottom: 20px;
+    margin: 20px;
   }
-
   .info {
     color: black;
   }
-
   .warn {
     color: orange;
   }
-
   .error {
     color: red;
   }
-
   .hide {
     visibility: hidden;
   }
