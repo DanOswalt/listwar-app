@@ -110,16 +110,9 @@ export default {
 </script>
 
 <style lang="css">
-.item-field:hover {
-  text-decoration: line-through;
-  cursor: pointer;
-  color: red;
-}
-
-.current-title:hover {
-  cursor: text;
-  color: red;
-  border-bottom: solid 1px black;
+.list-form {
+  max-width: 400px;
+  margin: 50px auto;
 }
 
 </style>

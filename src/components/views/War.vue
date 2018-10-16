@@ -1,31 +1,34 @@
 <template lang="html">
   <div class="war">
-    <section v-if="status === 'intro'" class="war-phase">
-      <h6> {{ listTitle }}</h6>
-      <ul>
-        <li v-for="(item, index) in list.items" :key="index">{{ index + 1 }}. {{ item }}</li>
-      </ul>
-      <h6>{{ listLength }} items will last {{ roundCount }} rounds. Ok?</h6>
-      <button @click="startWar" class="button is-info">Begin</button>
-    </section>
+    <div class="war-box">
+      <section v-if="status === 'intro'" class="war-phase">
+        <h6> {{ listTitle }}</h6>
+        <ul>
+          <li v-for="(item, index) in list.items" :key="index">{{ index + 1 }}. {{ item }}</li>
+        </ul>
+        <h6>{{ listLength }} items will last {{ roundCount }} rounds. Ok?</h6>
+        <button @click="startWar" class="button is-info">Begin</button>
+      </section>
 
-    <section v-else-if="status === 'playing'" class="war-phase">
-      <div class="">
-         <button @click="pickWinner(heroIndex, villainIndex)" class="btn-large">{{ hero.value }}</button>
-         <button @click="pickWinner(villainIndex, heroIndex)" class="btn-large">{{ villain.value }}</button>
-       </div>
-    </section>
+      <section v-else-if="status === 'playing'" class="war-phase">
+        <div class="">
+           <button @click="pickWinner(heroIndex, villainIndex)" class="btn-large">{{ hero.value }}</button>
+           <button @click="pickWinner(villainIndex, heroIndex)" class="btn-large">{{ villain.value }}</button>
+         </div>
+      </section>
 
-    <section v-else-if="status === 'finished'" class="war-phase">
-      <ul>
-        <li v-for="(item, index) in result.items" :key="index" >{{ item.rank }}. {{ item.value }} <span class="right">{{ item.points }} pts.</span></li>
-      </ul>
-      <p class="white-text">{{ result }}</p>
-    </section>
+      <section v-else-if="status === 'finished'" class="war-phase">
+        <ul>
+          <li v-for="(item, index) in result.items" :key="index" >{{ item.rank }}. {{ item.value }} <span class="right">{{ item.points }} pts.</span></li>
+        </ul>
+        <p class="white-text">{{ result }}</p>
+        <input v-if="shareableUrl" read-only @click="copyText" :value="shareableUrl"/>
+      </section>
 
-    <section v-else class="">
-      <h6>No List?</h6>
-    </section>
+      <section v-else class="">
+        <h6>No List?</h6>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -42,7 +45,8 @@ export default {
       hero: { value: '' },
       heroIndex: null,
       villain: { value: '' },
-      villainIndex: null
+      villainIndex: null,
+      shareableUrl: ''
     }
   },
   computed: {
@@ -87,6 +91,7 @@ export default {
       })
 
       if (this.user) {
+        this.shareableUrl = this.$route.path + '?sharedby=' + this.user.alias
         this.user.results.push(this.result)
         this.saveResult()
           .then(doc => {
@@ -144,6 +149,9 @@ export default {
       } else {
         this.finish()
       }
+    },
+    copyText () {
+      console.log('copy one day!')
     }
   },
   mounted () {
@@ -178,4 +186,8 @@ export default {
 </script>
 
 <style lang="css">
+.war-box {
+  max-width: 400px;
+  margin: 50px auto;
+}
 </style>

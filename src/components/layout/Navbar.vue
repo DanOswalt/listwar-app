@@ -2,7 +2,9 @@
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <div class="navbar-item">
-        <h1 class="is-size-2">ListWar</h1>
+        <router-link :to="{ name: 'Home', params: {} }">
+          <h1 class="is-size-2">ListWar</h1>
+        </router-link>
       </div>
       <a class="navbar-burger" @click="openMenu = !openMenu" :class="{ 'is-active': openMenu } " role="button" aria-label="menu" aria-expanded="false">
         <span aria-hidden="true"></span>
@@ -56,4 +58,7 @@ export default {
 </script>
 
 <style lang="css">
+.navbar {
+  border-bottom: 1px solid gray;
+}
 </style>

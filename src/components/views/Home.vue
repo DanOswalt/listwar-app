@@ -1,10 +1,5 @@
 <template>
   <div class="home">
-    <router-link :to="{ name: 'Create', params: {} }">
-      <span class="icon">
-        <i class="fas fa-plus"></i>
-      </span>
-    </router-link>
   </div>
 </template>
 
