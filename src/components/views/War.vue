@@ -11,6 +11,7 @@
       </section>
 
       <section v-else-if="status === 'playing'" class="war-phase">
+        <h6> {{ listTitle }}</h6>
         <div class="">
            <button @click="pickWinner(heroIndex, villainIndex)" class="btn-large">{{ hero.value }}</button>
            <button @click="pickWinner(villainIndex, heroIndex)" class="btn-large">{{ villain.value }}</button>
@@ -18,10 +19,11 @@
       </section>
 
       <section v-else-if="status === 'finished'" class="war-phase">
+        <h6> {{ listTitle }}</h6>
         <ul>
           <li v-for="(item, index) in result.items" :key="index" >{{ item.rank }}. {{ item.value }} <span class="right">{{ item.points }} pts.</span></li>
         </ul>
-        <p class="white-text">{{ result }}</p>
+        <!-- <p class="white-text">{{ result }}</p> -->
         <input v-if="shareableUrl" read-only @click="copyText" :value="shareableUrl"/>
       </section>
 

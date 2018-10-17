@@ -105,6 +105,9 @@ export default {
     saveList () {
       return db.collection('lists').doc(this.list.id).set(this.list)
     }
+  },
+  mounted () {
+    this.$store.commit('setMsg', { value: 'Create a new list', type: 'info' } )
   }
 }
 </script>

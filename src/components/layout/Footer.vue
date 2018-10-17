@@ -14,22 +14,6 @@
         </span>
       </router-link>
     </div>
-    <div v-if="submitListButton" class="navbutton submit right">
-      <button class="button" type="button" name="button">War</button>>
-    </div>
-    <div v-if="beginWarButton" class="navbutton begin right">
-      <button class="button" type="button" name="button">Begin</button>>
-    </div>
-    <div v-if="shareButton" class="navbutton share middle">
-      <button class="button" type="button" name="button">Share</button>>
-    </div>
-    <div v-if="doneButton" class="navbutton done right">
-      <router-link v-if="doneButton" :to="{ name: 'Home', params: {} }">
-        <span class="icon">
-          <i class="far fa-check-circle"></i>
-        </span>
-      </router-link>
-    </div>
   </div>
 </template>
 

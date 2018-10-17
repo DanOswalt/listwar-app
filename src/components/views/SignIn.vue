@@ -62,5 +62,7 @@ export default {
 <style lang="css">
   form {
     font-size: 2em;
+    max-width: 400px;
+    margin: 50px auto;
   }
 </style>

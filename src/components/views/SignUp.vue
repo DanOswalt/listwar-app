@@ -91,4 +91,8 @@ export default {
   .msg-output {
     color: red;
   }
+  form {
+    max-width: 400px;
+    margin: 50px auto;
+  }
 </style>
