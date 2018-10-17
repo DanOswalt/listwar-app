@@ -5,10 +5,12 @@
       <div v-if="titleEdit" ref="titleInput" @keydown.enter.prevent="titleEdit=false" class="field">
         <div class="control">
           <input id="title"
+                 ref="titleInput"
                  class="input is-info has-text-centered"
                  @blur="becomePlainText"
                  type="text"
                  v-model="list.title"
+                 autofocus
                  placeholder="Title your list">
         </div>
       </div>
@@ -116,7 +118,8 @@ export default {
     }
   },
   mounted () {
-    this.$store.commit('setMsg', { value: '', type: 'info' } )
+    this.$store.commit('setMsg', {value: '', type: 'info'})
+    this.$refs.titleInput.focus()
   }
 }
 </script>
@@ -135,6 +138,7 @@ export default {
   margin-bottom: 0;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
+  border-bottom: white solid 1px;
 }
 
 .item {
@@ -144,7 +148,7 @@ export default {
   opacity: 0.6;
   padding: 5px;
   padding-left: 12px;
-  border: #222 1px solid;
+  border: white 1px solid;
   margin: 0;
 }
 

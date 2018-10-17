@@ -79,7 +79,7 @@ export default {
       return count
     },
     introMsg () {
-      return `${ this.listLength } items will last ${ this.roundCount } rounds. Begin?`
+      return `${this.listLength} items will last ${this.roundCount} rounds. Begin?`
     }
   },
   methods: {
@@ -101,7 +101,7 @@ export default {
         item.rank = index + 1
       })
 
-      this.$store.commit('setMsg', { value: `${ this.result.items[0].value } wins!`, type: 'info'})
+      this.$store.commit('setMsg', {value: `${this.result.items[0].value} wins!`, type: 'info'})
 
       if (this.user) {
         this.shareableUrl = this.$route.path + '?sharedby=' + this.user.alias
@@ -154,7 +154,7 @@ export default {
     },
     nextBattle () {
       if (this.schedule.length > 0) {
-        this.$store.commit('setMsg', { value: `${ this.schedule.length } battles left`, type: 'info'})
+        this.$store.commit('setMsg', {value: `${this.schedule.length} battles left`, type: 'info'})
 
         this.battle = this.schedule.pop()
         this.heroIndex = this.battle[0]
@@ -173,7 +173,7 @@ export default {
     // if user freshly created the list, we should be ready to go
     if (this.list) {
       this.status = 'intro'
-      this.$store.commit('setMsg', { value: this.introMsg, type: 'info' })
+      this.$store.commit('setMsg', {value: this.introMsg, type: 'info'})
 
     // if there's no list, check for cached recent list (make sure it maches the id from url)
     } else {
@@ -183,7 +183,7 @@ export default {
         console.log('loaded from recent')
         this.$store.commit('setList', recentList)
         this.status = 'intro'
-        this.$store.commit('setMsg', { value: this.introMsg, type: 'info' })
+        this.$store.commit('setMsg', {value: this.introMsg, type: 'info'})
 
       // if no cached recent list, then check firebase (lists only saved after completion)
       } else {
@@ -192,10 +192,10 @@ export default {
             console.log('loaded from db')
             this.$store.commit('setList', doc.data)
             this.status = 'intro'
-            this.$store.commit('setMsg', { value: this.introMsg, type: 'info' })
+            this.$store.commit('setMsg', {value: this.introMsg, type: 'info'})
           })
           .catch(err => {
-            this.$store.commit('setMsg', { value: err.message, type: 'error' })
+            this.$store.commit('setMsg', {value: err.message, type: 'error'})
           })
       }
     }
@@ -217,6 +217,7 @@ export default {
   margin-bottom: 0;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
+  border-bottom: white solid 1px;
 }
 
 .item {
@@ -226,7 +227,7 @@ export default {
   opacity: 0.6;
   padding: 5px;
   padding-left: 12px;
-  border: #222 1px solid;
+  border: #white 1px solid;
   margin: 0;
 }
 </style>

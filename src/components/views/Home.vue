@@ -16,7 +16,7 @@ export default {
     },
     welcome () {
       if (this.user) {
-        return 'Hi ' + this.user.alias;
+        return 'Hi ' + this.user.alias
       } else {
         return 'Howdy stranger.'
       }
