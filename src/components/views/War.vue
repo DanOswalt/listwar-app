@@ -13,7 +13,7 @@
       </section>
 
       <section v-else-if="status === 'playing'" class="war-phase">
-        <h6> {{ listTitle }}</h6>
+        <h3 class="list-title has-text-centered"> {{ listTitle }}</h3>
         <div class="">
            <button @click="pickWinner(heroIndex, villainIndex)" class="btn-large">{{ hero.value }}</button>
            <button @click="pickWinner(villainIndex, heroIndex)" class="btn-large">{{ villain.value }}</button>
@@ -21,9 +21,13 @@
       </section>
 
       <section v-else-if="status === 'finished'" class="war-phase">
-        <h6> {{ listTitle }}</h6>
+        <h3 class="list-title has-text-centered"> {{ listTitle }}</h3>
         <ul>
-          <li v-for="(item, index) in result.items" :key="index" >{{ item.rank }}. {{ item.value }} <span class="right">{{ item.points }} pts.</span></li>
+          <li v-for="(item, index) in result.items"
+              :key="index"
+              class="item">{{ item.rank }}. {{ item.value }}
+              <span class="right">{{ item.points }} pts.</span>
+          </li>
         </ul>
         <!-- <p class="white-text">{{ result }}</p> -->
         <input v-if="shareableUrl" read-only @click="copyText" :value="shareableUrl"/>
@@ -74,7 +78,7 @@ export default {
       }
       return count
     },
-    msg () {
+    introMsg () {
       return `${ this.listLength } items will last ${ this.roundCount } rounds. Begin?`
     }
   },
@@ -96,6 +100,8 @@ export default {
       this.result.items.forEach((item, index) => {
         item.rank = index + 1
       })
+
+      this.$store.commit('setMsg', { value: `${ this.result.items[0].value } wins!`, type: 'info'})
 
       if (this.user) {
         this.shareableUrl = this.$route.path + '?sharedby=' + this.user.alias
@@ -148,6 +154,8 @@ export default {
     },
     nextBattle () {
       if (this.schedule.length > 0) {
+        this.$store.commit('setMsg', { value: `${ this.schedule.length } battles left`, type: 'info'})
+
         this.battle = this.schedule.pop()
         this.heroIndex = this.battle[0]
         this.villainIndex = this.battle[1]
@@ -165,7 +173,7 @@ export default {
     // if user freshly created the list, we should be ready to go
     if (this.list) {
       this.status = 'intro'
-      this.$store.commit('setMsg', { value: this.msg, type: 'info' })
+      this.$store.commit('setMsg', { value: this.introMsg, type: 'info' })
 
     // if there's no list, check for cached recent list (make sure it maches the id from url)
     } else {
@@ -175,7 +183,7 @@ export default {
         console.log('loaded from recent')
         this.$store.commit('setList', recentList)
         this.status = 'intro'
-        this.$store.commit('setMsg', { value: this.msg, type: 'info' })
+        this.$store.commit('setMsg', { value: this.introMsg, type: 'info' })
 
       // if no cached recent list, then check firebase (lists only saved after completion)
       } else {
@@ -184,7 +192,7 @@ export default {
             console.log('loaded from db')
             this.$store.commit('setList', doc.data)
             this.status = 'intro'
-            this.$store.commit('setMsg', { value: this.msg, type: 'info' })
+            this.$store.commit('setMsg', { value: this.introMsg, type: 'info' })
           })
           .catch(err => {
             this.$store.commit('setMsg', { value: err.message, type: 'error' })
