@@ -2,11 +2,13 @@
   <div class="war">
     <div class="war-box">
       <section v-if="status === 'intro'" class="war-phase">
-        <h6> {{ listTitle }}</h6>
+        <h3 class="list-title has-text-centered"> {{ listTitle }}</h3>
         <ul>
-          <li v-for="(item, index) in list.items" :key="index">{{ index + 1 }}. {{ item }}</li>
+          <li v-for="(item, index) in list.items"
+              :key="index"
+              class="item">{{ index + 1 }}. {{ item }}
+          </li>
         </ul>
-        <h6>{{ listLength }} items will last {{ roundCount }} rounds. Ok?</h6>
         <button @click="startWar" class="button is-info">Begin</button>
       </section>
 
@@ -71,6 +73,9 @@ export default {
         count += i
       }
       return count
+    },
+    msg () {
+      return `${ this.listLength } items will last ${ this.roundCount } rounds. Begin?`
     }
   },
   methods: {
@@ -160,6 +165,7 @@ export default {
     // if user freshly created the list, we should be ready to go
     if (this.list) {
       this.status = 'intro'
+      this.$store.commit('setMsg', { value: this.msg, type: 'info' })
 
     // if there's no list, check for cached recent list (make sure it maches the id from url)
     } else {
@@ -169,6 +175,7 @@ export default {
         console.log('loaded from recent')
         this.$store.commit('setList', recentList)
         this.status = 'intro'
+        this.$store.commit('setMsg', { value: this.msg, type: 'info' })
 
       // if no cached recent list, then check firebase (lists only saved after completion)
       } else {
@@ -177,6 +184,7 @@ export default {
             console.log('loaded from db')
             this.$store.commit('setList', doc.data)
             this.status = 'intro'
+            this.$store.commit('setMsg', { value: this.msg, type: 'info' })
           })
           .catch(err => {
             this.$store.commit('setMsg', { value: err.message, type: 'error' })
@@ -191,5 +199,26 @@ export default {
 .war-box {
   max-width: 400px;
   margin: 50px auto;
+}
+
+.list-title {
+  font-size: 24px;
+  color: white;
+  background-color: #3273dc;
+  padding: 3px;
+  margin-bottom: 0;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.item {
+  font-size: 16px;
+  color: white;
+  background-color: #3273dc;
+  opacity: 0.6;
+  padding: 5px;
+  padding-left: 12px;
+  border: #222 1px solid;
+  margin: 0;
 }
 </style>
