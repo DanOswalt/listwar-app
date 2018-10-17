@@ -1,7 +1,8 @@
 <template>
   <div class="create">
+    <h2 class="title has-text-centered is-size-4">Create a new list</h2>
     <form class="list-form">
-      <div v-if="titleEdit" class="field">
+      <div v-if="titleEdit" ref="titleInput" @keydown.enter.prevent="titleEdit=false" class="field">
         <div class="control">
           <input id="title"
                  class="input is-info has-text-centered"
@@ -11,11 +12,17 @@
                  placeholder="Title your list">
         </div>
       </div>
-      <div v-else class="current-title is-bold has-text-centered" @click="titleEdit = true">
-        <h3 @hover="showEditIcon=true">{{ list.title }}<span v-show="showEditIcon" class="fa fa-edit edit-title-icon"></span></h3>
+      <div v-else class="current-title is-bold has-text-centered" @click="titleEdit=true">
+        <h3>{{ list.title }}
+          <i class="far fa-edit"></i>
+        </h3>
       </div>
       <ul class="items-list" v-for="(item, index) in list.items" :key="index">
-        <li class="item-field" @click="removeItem(index)">{{ index + 1 }}. {{ item }}</li>
+        <li class="item-field item">{{ index + 1 }}. {{ item }}
+          <span @click="removeItem(index)" class="icon remove-item is-pulled-right">
+            <i class="far fa-times-circle"></i>
+          </span>
+        </li>
       </ul>
       <div class="field">
         <div class="control">
@@ -23,6 +30,7 @@
                  ref="newItem"
                  class="input is-info"
                  @keydown.enter.prevent="addItem(newItem)"
+                 @keydown.tab.prevent="addItem(newItem)"
                  type="text"
                  v-model="newItem"
                  placeholder="Next item">
@@ -48,7 +56,8 @@ export default {
       },
       newItem: '',
       titleEdit: true,
-      showEditIcon: false
+      titleEntered: false,
+      showEditIcon: true
     }
   },
   computed: {
@@ -107,7 +116,7 @@ export default {
     }
   },
   mounted () {
-    this.$store.commit('setMsg', { value: 'Create a new list', type: 'info' } )
+    this.$store.commit('setMsg', { value: '', type: 'info' } )
   }
 }
 </script>
@@ -115,7 +124,32 @@ export default {
 <style lang="css">
 .list-form {
   max-width: 400px;
-  margin: 50px auto;
+  margin: 0 auto;
+}
+
+.current-title {
+  font-size: 24px;
+  color: white;
+  background-color: #3273dc;
+  padding: 3px;
+  margin-bottom: 0;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.item {
+  font-size: 16px;
+  color: white;
+  background-color: #3273dc;
+  opacity: 0.6;
+  padding: 5px;
+  padding-left: 12px;
+  border: #222 1px solid;
+  margin: 0;
+}
+
+.remove-item {
+  cursor: pointer;
 }
 
 </style>

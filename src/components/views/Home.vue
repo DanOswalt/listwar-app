@@ -7,21 +7,23 @@
 export default {
   name: 'Home',
   data () {
-    return {}
+    return {
+    }
   },
   computed: {
     user () {
       return this.$store.getters.getUser
+    },
+    welcome () {
+      if (this.user) {
+        return 'Hi ' + this.user.alias;
+      } else {
+        return 'Howdy stranger.'
+      }
     }
   },
-  methods: {
-    setMsg (value, type) {
-      if (!value) {
-        value = ''
-        type = 'hide'
-      }
-      this.$store.commit('setMsg', { value, type })
-    }
+  created () {
+    this.$store.commit('setMsg', { value: this.welcome, type: 'info' })
   }
 }
 </script>
